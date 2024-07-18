@@ -8,6 +8,7 @@ do
 {
     Console.WriteLine("What do you want to do?");
     DisplayUserChoices();
+
     var userInput = Console.ReadLine()?.ToUpper();
     var userChoice = HandleUserInput(userInput, out isExit);
 
@@ -18,12 +19,20 @@ do
 
     if(userChoice == "A")
     {
-        AddATodo(todos);
+        bool isAdded;
+        do
+        {
+            AddATodo(todos, out isAdded);
+        } while (!isAdded);
+    }
+
+    if(userChoice == "R")
+    {
+        bool isRemovedOrEmpty = false;
+        RemoveATodo(todos, out isRemovedOrEmpty);
     }
 } while (!isExit);
 
-
-Console.ReadKey();
 void DisplayUserChoices()
 {
     Console.WriteLine("[S]ee all TODOs");
@@ -36,9 +45,11 @@ void SeeAllTodos(List<string> todos)
 {
     if (todos.Count > 0)
     {
+        var currentTodo = 1;
         foreach (var todo in todos)
         {
-            Console.WriteLine("Todo is: " + todo);
+            Console.WriteLine($"{currentTodo}. " + todo);
+            ++currentTodo;
         }
     }
     else
@@ -47,16 +58,41 @@ void SeeAllTodos(List<string> todos)
     }
 }
 
-void AddATodo(List<string> todos)
+void AddATodo(List<string> todos, out bool isTodoAdded)
 {
+    Console.WriteLine("Enter the TODO description:");
     var todo = Console.ReadLine();
+
     if (todos.Contains(todo))
     {
         Console.WriteLine("The description must be unique.");
+        isTodoAdded = false;
         return;
     }
+
+    if (string.IsNullOrEmpty(todo))
+    {
+        Console.WriteLine("The description cannot be empty.");
+        isTodoAdded = false;
+        return;
+    }
+
     todos.Add(todo);
+
+    isTodoAdded = true;
     Console.WriteLine($"TODO successfully added: {todo}");
+}
+
+void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
+{
+    if(todos.Count == 0)
+    {
+        Console.WriteLine("No TODOs have been added yet.");
+        isRemovedOrEmpty = true;
+    }
+
+    isRemovedOrEmpty = true;
+    Console.WriteLine("remove todo here");
 }
 
 string? HandleUserInput(string? input, out bool isExit)
@@ -64,24 +100,20 @@ string? HandleUserInput(string? input, out bool isExit)
     switch (input)
     {
         case "S":
-            Console.WriteLine("Selected See All Todos");
             isExit =  false;
             return "S";
         case "A":
-            Console.WriteLine("Selected Add a Todo");
             isExit = false;
             return "A";
         case "R":
-            Console.WriteLine("Selected Remove a Todo");
             isExit = false;
             return "R";
         case "E":
-            Console.WriteLine("Selected Exit");
             isExit = true;
             return "E";
         default:
             Console.WriteLine("Incorrect input");
             isExit = false;
-            return "";
+            return null;
     }
 }
