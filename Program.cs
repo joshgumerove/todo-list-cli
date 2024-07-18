@@ -29,7 +29,10 @@ do
     if(userChoice == "R")
     {
         bool isRemovedOrEmpty = false;
-        RemoveATodo(todos, out isRemovedOrEmpty);
+        do
+        {
+            RemoveATodo(todos, out isRemovedOrEmpty);
+        } while (!isRemovedOrEmpty);
     }
 } while (!isExit);
 
@@ -89,6 +92,25 @@ void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
     {
         Console.WriteLine("No TODOs have been added yet.");
         isRemovedOrEmpty = true;
+        return;
+    }
+
+    Console.WriteLine("Select the index of the TODO you want to remove:");
+    var userSelectedIndex = Console.ReadLine();
+
+    if (int.TryParse(userSelectedIndex, out int result)) {
+        if(result > todos.Count)
+        {
+            Console.WriteLine("Selected index cannot be empty.");
+            isRemovedOrEmpty = false;
+            return;
+        }
+        string removeItem = todos[result - 1];
+        todos.RemoveAt(result - 1);
+
+        Console.WriteLine("TODO removed: " + removeItem);
+        isRemovedOrEmpty = true;
+        return;
     }
 
     isRemovedOrEmpty = true;
