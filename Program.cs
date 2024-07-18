@@ -2,9 +2,9 @@
 Console.WriteLine("Hello!");
 
 var todos = new List<string>();
-bool isExit;
+bool isExit = false;
 
-do
+while (!isExit)
 {
     Console.WriteLine("What do you want to do?");
     DisplayUserChoices();
@@ -19,22 +19,22 @@ do
 
     if (userChoice == "A")
     {
-        bool isAdded;
-        do
+        bool isAdded = false;
+        while (!isAdded)
         {
             AddATodo(todos, out isAdded);
-        } while (!isAdded);
+        }
     }
 
     if (userChoice == "R")
     {
         bool isRemovedOrEmpty = false;
-        do
+        while (!isRemovedOrEmpty)
         {
             RemoveATodo(todos, out isRemovedOrEmpty);
-        } while (!isRemovedOrEmpty);
+        }
     }
-} while (!isExit);
+}
 
 void DisplayUserChoices()
 {
