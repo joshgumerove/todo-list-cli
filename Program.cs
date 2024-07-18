@@ -17,7 +17,7 @@ do
         SeeAllTodos(todos);
     }
 
-    if(userChoice == "A")
+    if (userChoice == "A")
     {
         bool isAdded;
         do
@@ -26,7 +26,7 @@ do
         } while (!isAdded);
     }
 
-    if(userChoice == "R")
+    if (userChoice == "R")
     {
         bool isRemovedOrEmpty = false;
         do
@@ -88,7 +88,7 @@ void AddATodo(List<string> todos, out bool isTodoAdded)
 
 void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
 {
-    if(todos.Count == 0)
+    if (todos.Count == 0)
     {
         Console.WriteLine("No TODOs have been added yet.");
         isRemovedOrEmpty = true;
@@ -98,8 +98,9 @@ void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
     Console.WriteLine("Select the index of the TODO you want to remove:");
     var userSelectedIndex = Console.ReadLine();
 
-    if (int.TryParse(userSelectedIndex, out int result)) {
-        if(result > todos.Count)
+    if (int.TryParse(userSelectedIndex, out int result))
+    {
+        if (result > todos.Count)
         {
             Console.WriteLine("Selected index cannot be empty.");
             isRemovedOrEmpty = false;
@@ -122,7 +123,7 @@ string? HandleUserInput(string? input, out bool isExit)
     switch (input)
     {
         case "S":
-            isExit =  false;
+            isExit = false;
             return "S";
         case "A":
             isExit = false;
