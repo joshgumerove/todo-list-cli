@@ -11,27 +11,17 @@ while (!isExit)
     var userInput = Console.ReadLine()?.ToUpper();
     var userChoice = HandleUserInput(userInput, out isExit);
 
-    if (userChoice == "S")
+    switch (userChoice)
     {
-        SeeAllTodos(todos);
-    }
-
-    if (userChoice == "A")
-    {
-        bool isAdded = false;
-        while (!isAdded)
-        {
-            AddATodo(todos, out isAdded);
-        }
-    }
-
-    if (userChoice == "R")
-    {
-        bool isRemovedOrEmpty = false;
-        while (!isRemovedOrEmpty)
-        {
-            RemoveATodo(todos, out isRemovedOrEmpty);
-        }
+        case "S":
+            SeeAllTodos(todos);
+            break;
+        case "A":
+            AddTodoLoop(todos);
+            break;
+        case "R":
+            RemoveTodoLoop(todos);
+            break;
     }
 }
 
@@ -42,20 +32,28 @@ void DisplayUserChoices()
     Console.WriteLine("[R]emove a TODO");
     Console.WriteLine("[E]xit");
 }
+
 void SeeAllTodos(List<string> todos)
 {
     if (todos.Count > 0)
     {
-        var currentTodo = 1;
-        foreach (var todo in todos)
+        for (int i = 0; i < todos.Count; i++)
         {
-            Console.WriteLine($"{currentTodo}. " + todo);
-            ++currentTodo;
+            Console.WriteLine($"{i + 1}. {todos[i]}");
         }
     }
     else
     {
-        Console.WriteLine("No TODOs have been added yet");
+        Console.WriteLine("No TODOs have been added yet.");
+    }
+}
+
+void AddTodoLoop(List<string> todos)
+{
+    bool isAdded = false;
+    while (!isAdded)
+    {
+        AddATodo(todos, out isAdded);
     }
 }
 
@@ -79,9 +77,17 @@ void AddATodo(List<string> todos, out bool isTodoAdded)
     }
 
     todos.Add(todo);
-
     isTodoAdded = true;
     Console.WriteLine($"TODO successfully added: {todo}");
+}
+
+void RemoveTodoLoop(List<string> todos)
+{
+    bool isRemovedOrEmpty = false;
+    while (!isRemovedOrEmpty)
+    {
+        RemoveATodo(todos, out isRemovedOrEmpty);
+    }
 }
 
 void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
@@ -98,25 +104,25 @@ void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
 
     if (int.TryParse(userSelectedIndex, out int result))
     {
-        if (result > todos.Count)
+        if (result > todos.Count || result <= 0)
         {
-            Console.WriteLine("Selected index cannot be empty.");
+            Console.WriteLine("Invalid index.");
             isRemovedOrEmpty = false;
             return;
         }
+
         string removeItem = todos[result - 1];
         todos.RemoveAt(result - 1);
-
         Console.WriteLine("TODO removed: " + removeItem);
         isRemovedOrEmpty = true;
         return;
     }
 
     isRemovedOrEmpty = true;
-    Console.WriteLine("remove todo here");
+    Console.WriteLine("Invalid input. Please enter a valid number.");
 }
 
-string? HandleUserInput(string? input, out bool isExit)
+string HandleUserInput(string input, out bool isExit)
 {
     switch (input)
     {
