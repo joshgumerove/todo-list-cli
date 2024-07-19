@@ -1,5 +1,4 @@
-﻿
-Console.WriteLine("Hello!");
+﻿Console.WriteLine("Hello!");
 
 var todos = new List<string>();
 bool isExit = false;
@@ -35,7 +34,6 @@ while (!isExit)
         }
     }
 }
-
 void DisplayUserChoices()
 {
     Console.WriteLine("[S]ee all TODOs");
@@ -43,7 +41,6 @@ void DisplayUserChoices()
     Console.WriteLine("[R]emove a TODO");
     Console.WriteLine("[E]xit");
 }
-
 void SeeAllTodos(List<string> todos)
 {
     if (todos.Count > 0)
@@ -60,7 +57,6 @@ void SeeAllTodos(List<string> todos)
         Console.WriteLine("No TODOs have been added yet");
     }
 }
-
 void AddATodo(List<string> todos, out bool isTodoAdded)
 {
     Console.WriteLine("Enter the TODO description:");
@@ -85,7 +81,6 @@ void AddATodo(List<string> todos, out bool isTodoAdded)
     isTodoAdded = true;
     Console.WriteLine($"TODO successfully added: {todo}");
 }
-
 void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
 {
     if (todos.Count == 0)
@@ -117,7 +112,6 @@ void RemoveATodo(List<string> todos, out bool isRemovedOrEmpty)
     isRemovedOrEmpty = true;
     Console.WriteLine("remove todo here");
 }
-
 string? HandleUserInput(string? input, out bool isExit)
 {
     switch (input)
